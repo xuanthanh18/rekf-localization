@@ -1,0 +1,17 @@
+README for RfmToLeds
+Author/Contact: tinyos-help@millennium.berkeley.edu
+
+Description:
+
+RfmToLeds listens for messages of type IntMsg. When it receives one,
+it sets its LEDs to the lowest three bits of the received
+value. Combined with CntToRfm or CntToLedsAndRfm, this is a simple
+test of TinyOS networking.
+
+Tools:
+
+None.
+
+Known bugs/limitations:
+
+None.

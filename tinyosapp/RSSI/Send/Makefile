@@ -1,0 +1,2 @@
+COMPONENT=Send
+include ../Makerules

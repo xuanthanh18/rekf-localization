@@ -1,0 +1,2 @@
+COMPONENT=Receive
+include ../Makerules
