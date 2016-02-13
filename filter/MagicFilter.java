@@ -2,7 +2,7 @@
 /*
 Author: Xuan Thanh Dang, Budi Mulyawan, Nirupama Bulusu, Sanjay Jha, Pubudu N Pathirana
 
-Contact: xuan.t.dang@uts.edu.au
+Contact: xuanthanh18@gmail.com
 Version: 1.0
 
 Copyright (c) National ICT Australia Limited, 2004.
@@ -16,8 +16,6 @@ MERCHANTABILITY OF THIS SOFTWARE OR THE SUITABILITY OF THIS SOFTWARE FOR ANY PAR
 
 The software is provided "as is" without express or implied warranty of any kind.
 
-Contact: Nirupama Bulusu (nbulusu@cse.unsw.edu.au)
-
 */
 
 import javax.swing.*;
@@ -25,7 +23,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.lang.*;
 import java.applet.*;
-
 
 public class MagicFilter extends JFrame
 {
@@ -37,13 +34,10 @@ public class MagicFilter extends JFrame
 		frame.getContentPane().add(myGraph);
 		frame.show();
 		int num = myGraph.getNumSample() -1 ;
-		for(int i = 0; i < num ; i++)
-		{
-			try
-			{
+		for(int i = 0; i < num ; i++){
+			try{
 				Thread.sleep(2);
-			}
-			catch(Exception e)
+			}catch(Exception e)
 			{}
 
 			myGraph.liveDraw(i);
@@ -67,9 +61,6 @@ public class MagicFilter extends JFrame
 			e.printStackTrace();
 		}
 
-		//panel = new GraphPanel();
-		//getContentPane().add(panel);
-
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screensize = kit.getScreenSize();
 		int screenHeight = screensize.height;
@@ -83,15 +74,10 @@ public class MagicFilter extends JFrame
 
 
 		JMenuItem opItem = new JMenuItem("Optimal Graph");
-		//JMenuItem exitItem = new JMenuItem("Exit");
 
-
-		estItem.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent event)
-			{
+		estItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event){
 				System.out.println("Redrawing");
-				//doAnimation();
 			}
 		});
 
@@ -130,48 +116,19 @@ public class MagicFilter extends JFrame
 
 		setJMenuBar(menuBar);
 
-
-
 	}
-
-	/*private void doAnimation()
-	{
-		System.out.println(panel.getNumSample());
-		for(int i = 0; i < panel.getNumSample(); i++)
-		{
-			try
-			{
-				Thread.sleep(20);
-
-			}
-			catch(Exception e)
-			{
-
-			}
-			panel.liveDraw(i);
-		}
-
-
-	}*/
-
-
 }
 
-class AboutDialog extends JDialog
-{
-	public AboutDialog(JFrame owner)
-	{
+class AboutDialog extends JDialog{
+	public AboutDialog(JFrame owner){
 		super(owner, "About MagicFilter", true);
 		Container pane = getContentPane();
-
 		pane.add(new JLabel("<HTML> <b> <I> MagicFilter 1.2</i></b><hr>"
 			+ " By NRL.SUMMER group<br>"
 			+ " Copyright@2004 by NRL.SUMMER UNSW</HTML>"), BorderLayout.CENTER);
 		JButton ok = new JButton("OK");
-		ok.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent event)
-			{
+		ok.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event){
 				setVisible(false);
 			}
 		});
@@ -180,7 +137,5 @@ class AboutDialog extends JDialog
 		panel.add(ok);
 		pane.add(panel, BorderLayout.SOUTH);
 		setSize(250, 150);
-
 	}
-
 }
