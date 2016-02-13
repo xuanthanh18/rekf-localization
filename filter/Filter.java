@@ -52,9 +52,7 @@ public class Filter
 
   //Debug
   private Matrix debug;
-
   private boolean loaded;
-
 
   public Filter(String filename){
     data = new Data("output.txt");
@@ -118,8 +116,7 @@ public class Filter
               if (nextline == null) continue;
               tokens = new StringTokenizer (nextline);
 
-              for(int j = 0; j < 4; j++)
-              {
+              for(int j = 0; j < 4; j++) {
 
                 sensorInitPos[i][j] =  Double.valueOf(tokens.nextToken()).doubleValue();
                 System.out.println("Value is : " + sensorInitPos[i][j]);
@@ -224,37 +221,31 @@ public class Filter
     dotX = new Matrix(NUM_SENSOR*4, NUM_SENSOR*4);
     X = new Matrix(NUM_SENSOR*4, NUM_SENSOR*4);
 
-    for(int i = 0; i < NUM_SENSOR; i++)
-    {
+    for(int i = 0; i < NUM_SENSOR; i++){
       R.set(i, i, r[i]);
     }
 
-    for(int i =0; i<NUM_SENSOR; i++)
-    {
+    for(int i =0; i<NUM_SENSOR; i++){
       N.set(i*4, i*4, n[i]);
       N.set(i*4+1, i*4 + 1, n[i]);
       N.set(i*4 + 2, i*4 + 2, n[i]);
       N.set(i*4 + 3, i*4 + 3, n[i]);
     }
-    for(int i = 0; i < NUM_SENSOR; i++)
-    {
+
+    for(int i = 0; i < NUM_SENSOR; i++){
       Q.set(i*2, i*2, q[i]);
       Q.set(i*2 + 1, i*2 + 1, q[i]);							                                                                  }
 
-
       //set initial system state
-      for(int i = 0; i < NUM_SENSOR; i++)
-      {
-        for(int j = 0; j < 4; j++)
-        {
+      for(int i = 0; i < NUM_SENSOR; i++){
+        for(int j = 0; j < 4; j++){
           sap.set(j+i*4, 0 , sensorInitPos[i][j]);
           System.out.println(sensorInitPos[i][j]);
         }
       }
 
       temp = new Matrix(NUM_SENSOR*4, 1);
-      for(int i = 0; i< NUM_SENSOR; i++)
-      {
+      for(int i = 0; i< NUM_SENSOR; i++){
         temp.setMatrix(i*4, (i+1)*4 - 1,0, 0, IC);
       }
 
@@ -280,8 +271,7 @@ public class Filter
       sap.getMatrix(0, NUM_SENSOR*4 -1, 0, 0).print(2, 4);
   }
 
-  public void setNumSample(int n)
-  {
+  public void setNumSample(int n){
     numSample = n;
   }
 
@@ -289,8 +279,7 @@ public class Filter
      @Function: getRSSI
      @Usage: get RSSI from sensors, store in a matrix
      */
-  public Matrix getRSSI(int n)
-  {
+  public Matrix getRSSI(int n) {
 
     //this function will call other class function to get the real RSSI measurement
     //and convert to a matrix which is y(t)
@@ -304,11 +293,9 @@ public class Filter
      @Usage: simulate BetaH1
      */
 
-  public Matrix getBetaH1(int n)
-  {
+  public Matrix getBetaH1(int n){
     Matrix BetaH1 = new Matrix(NUM_SENSOR, 1);
-    for(int i = 0; i < NUM_SENSOR; i++)
-    {
+    for(int i = 0; i < NUM_SENSOR; i++) {
       BetaH1.set(i, 0, -100 + 15*Math.log(1*(Xh1.get(i*4, n)*Xh1.get(i*4, n) + Xh1.get(i*4 +1, n)*Xh1.get(i*4 + 1, n) ) ) );
     }
 
@@ -319,11 +306,9 @@ public class Filter
      @Function: getBetab1
      @Usage: simulate the slope of C(x(t))
      */
-  public Matrix getBetab1(int n)
-  {
+  public Matrix getBetab1(int n){
     Matrix Betab1 = new Matrix(NUM_SENSOR, NUM_SENSOR*4);
-    for(int i = 0; i  < NUM_SENSOR; i++)
-    {
+    for(int i = 0; i  < NUM_SENSOR; i++){
       Betab1.set(i, i*4, 2*(Xh1.get(i*4 , n) / (Xh1.get(i*4, n)*Xh1.get(i*4, n) +Xh1.get(i*4 + 1, n)*Xh1.get(i*4 + 1, n) ) ) );
       Betab1.set(i, i*4 + 1, 2*(Xh1.get(i*4 + 1, n) / (Xh1.get(i*4, n)*Xh1.get(i*4, n) +Xh1.get(i*4 + 1, n)*Xh1.get(i*4 + 1, n) ) ) );
     }
@@ -336,16 +321,12 @@ public class Filter
      @Function: doFilter
      @Usage: Do the main estimation of the system state ( sensor positions)
      */
-  public void doFilter()
-  {
+  public void doFilter(){
     long startTime = System.currentTimeMillis();
     Matrix mTime = new Matrix(1,numSample-1);
 
     //cap.print(2, 1);  OK
-    for(int n = 0; n < numSample - 1; n++)
-    {
-      //performance.set(1, n, n);
-      //performance.set(0, n, System.currentTimeMillis() - startTime);
+    for(int n = 0; n < numSample - 1; n++){
 
       //Simulate velocity and acceleration
       U.set(0,n,0);
@@ -353,17 +334,13 @@ public class Filter
       u = U.getMatrix(0,1, n,n);
 
       caphat = (a.times(cap.getMatrix(0,3,n, n))).plus( b.times(u));
-      //caphat.print(2,1);
-
       cap.setMatrix(0, 3,n+1,  n + 1, (cap.getMatrix(0, 3, n, n)).plus(caphat.times(h)));
-
 
       x1h = A.times(x1.getMatrix(0,NUM_SENSOR*4-1, n,n)).plus(B.times(u));
 
       x1.setMatrix(0, NUM_SENSOR*4 -1 ,n+1, n+1 , (x1.getMatrix(0, NUM_SENSOR*4-1, n,n)).plus(x1h.times(h)));
 
       //Get RSSI value, in real experiment, this will be provided by sensors.
-
       Y =  getRSSI(n);
       Y.print(2, 1);
       bB1 = getBetab1(n);
@@ -407,30 +384,26 @@ public class Filter
      @Usage: Return the whole system state ( sensor positions + mobilerobot path)
 
 */
-  public Matrix getSystemState()
-  {
+  public Matrix getSystemState(){
     Matrix systemState = new Matrix((NUM_SENSOR+1)*4 + 1, numSample + 1); //plus one for mobile robot and initial pos
     systemState.setMatrix(0,(NUM_SENSOR*4 -1), 0 , numSample -1 , sep);
     systemState.setMatrix(NUM_SENSOR*4 , (NUM_SENSOR+ 1)*4 - 1, 0, numSample -1, cap);
     systemState.setMatrix(0, NUM_SENSOR*4 -1, numSample, numSample,sap);
 
-    for(int i = 0; i < numSample; i++)
-    {
+    for(int i = 0; i < numSample; i++){
       systemState.set(NUM_SENSOR*4 + 4, i, i*h);
     }
 
     return systemState;
   }
 
-  public Matrix getOptimizedState()
-  {
+  public Matrix getOptimizedState(){
     double mx, my;
     Matrix systemState = new Matrix(4, numSample + 10); //plus 10 sensors locations
     SMOOTH = numSample / 10;
 
     systemState.setMatrix(0, 3, 0, numSample -1, cap);
-    for(int i =0; i < NUM_SENSOR  ; i++)
-    {
+    for(int i =0; i < NUM_SENSOR  ; i++){
       mx = 0;
       my = 0;
       for(int j = numSample - SMOOTH -1; j < numSample -1; j++)												     {																						mx = mx + sep.get(i*4,j);
@@ -442,18 +415,15 @@ public class Filter
     return systemState;
   }
 
-  public Matrix getPerformance()
-  {
+  public Matrix getPerformance(){
     return performance;
   }
 
-  public Matrix getRobotPath()
-  {
+  public Matrix getRobotPath(){
     return cap;
   }
 
-  public int getNumOfSample()
-  {
+  public int getNumOfSample(){
     return numSample;
   }
 }
