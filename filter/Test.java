@@ -2,7 +2,7 @@
 /*
 Author: Xuan Thanh Dang, Budi Mulyawan, Nirupama Bulusu, Sanjay Jha, Pubudu N Pathirana
 
-Contact: xuan.t.dang@uts.edu.au
+Contact: xuanthanh18@gmail.com
 Version: 1.0
 
 Copyright (c) National ICT Australia Limited, 2004.
@@ -15,20 +15,14 @@ NATIONAL ICT AUSTRALIA LIMITED MAKES NO REPRESENTATIONS CONCERNING EITHER THE
 MERCHANTABILITY OF THIS SOFTWARE OR THE SUITABILITY OF THIS SOFTWARE FOR ANY PARTICULAR PURPOSE.
 
 The software is provided "as is" without express or implied warranty of any kind.
-
-Contact: Nirupama Bulusu (nbulusu@cse.unsw.edu.au)
-
 */
 
 import java.io.*;
 
-public class Test
-{
-	public static void main(String args[])
-	{
+public class Test{
+	public static void main(String args[]){
 		Data data = new Data("output.txt");
-		for(int i = 0;  i < data.getSize() - 1; i++)
-		{
+		for(int i = 0;  i < data.getSize() - 1; i++){
 			data.getRSSI(i).print(2, 1);
 		}
 	}
