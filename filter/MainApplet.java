@@ -2,7 +2,7 @@
 /*
 Author: Xuan Thanh Dang, Budi Mulyawan, Nirupama Bulusu, Sanjay Jha, Pubudu N Pathirana
 
-Contact: xuan.t.dang@uts.edu.au
+Contact: xuanthanh18@gmail.comb
 Version: 1.0
 
 Copyright (c) National ICT Australia Limited, 2004.
@@ -16,7 +16,6 @@ MERCHANTABILITY OF THIS SOFTWARE OR THE SUITABILITY OF THIS SOFTWARE FOR ANY PAR
 
 The software is provided "as is" without express or implied warranty of any kind.
 
-Contact: Nirupama Bulusu (nbulusu@cse.unsw.edu.au)
 
 */
 
