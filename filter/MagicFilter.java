@@ -24,10 +24,8 @@ import java.awt.event.*;
 import java.lang.*;
 import java.applet.*;
 
-public class MagicFilter extends JFrame
-{
-	public static void main(String arg[])
-	{
+public class MagicFilter extends JFrame{
+	public static void main(String arg[]){
 		MagicFilter frame = new MagicFilter();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GraphPanel myGraph = new GraphPanel();
@@ -39,25 +37,19 @@ public class MagicFilter extends JFrame
 				Thread.sleep(2);
 			}catch(Exception e)
 			{}
-
 			myGraph.liveDraw(i);
 		}
-
 	}
 
 	private AboutDialog dialog;
 	//private GraphPanel panel;
 
-	public MagicFilter()
-	{
+	public MagicFilter(){
 		String plaf = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-		try
-		{
+		try{
 			UIManager.setLookAndFeel(plaf);
 			SwingUtilities.updateComponentTreeUI(this);
-		}
-		catch(Exception e)
-		{
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 
@@ -71,8 +63,6 @@ public class MagicFilter extends JFrame
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem estItem = new JMenuItem("Estimate");
-
-
 		JMenuItem opItem = new JMenuItem("Optimal Graph");
 
 		estItem.addActionListener(new ActionListener(){
@@ -81,10 +71,8 @@ public class MagicFilter extends JFrame
 			}
 		});
 
-		Action exitAction = new AbstractAction("Exit")
-		{
-			public void actionPerformed(ActionEvent event)
-			{
+		Action exitAction = new AbstractAction("Exit"){
+			public void actionPerformed(ActionEvent event){
 				System.exit(0);
 			}
 		};
@@ -94,10 +82,8 @@ public class MagicFilter extends JFrame
 		JMenu helpMenu = new JMenu("Help");
 		JMenuItem aboutItem = new JMenuItem("About MagicFilter");
 
-		aboutItem.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent event)
-			{
+		aboutItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event){
 				if(dialog == null)
 					dialog = new AboutDialog(MagicFilter.this);
 				dialog.show();
@@ -115,7 +101,6 @@ public class MagicFilter extends JFrame
 		helpMenu.add(aboutItem);
 
 		setJMenuBar(menuBar);
-
 	}
 }
 
