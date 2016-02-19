@@ -92,14 +92,11 @@ public class MagicFilter extends JFrame{
 
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
-
 		fileMenu.add(estItem);
 		fileMenu.add(opItem);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
-
 		helpMenu.add(aboutItem);
-
 		setJMenuBar(menuBar);
 	}
 }

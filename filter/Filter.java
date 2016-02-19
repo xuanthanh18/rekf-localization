@@ -76,31 +76,25 @@ public class Filter
           if (attribute.equals("H"))   { h    = Double.valueOf(tokens.nextToken()).doubleValue() / Double.valueOf(tokens.nextToken()).doubleValue() ; }
 
           if (attribute.equals("Amax"))   { Amax    = Integer.valueOf(tokens.nextToken()).intValue(); }
-          if (attribute.equals("r"))
-          {
+          if (attribute.equals("r")){
             r = new double[NUM_SENSOR];
             for(int i = 0; i < NUM_SENSOR; i++)
               r[i] = Double.valueOf(tokens.nextToken()).doubleValue();
           }
 
-          if(attribute.equals("q"))
-          {
+          if(attribute.equals("q")){
             q = new double[NUM_SENSOR];
             for(int i = 0; i < NUM_SENSOR; i++)
               q[i] = Double.valueOf(tokens.nextToken()).doubleValue();
-
           }
 
-          if(attribute.equals("n"))
-          {
+          if(attribute.equals("n")){
             n = new double[NUM_SENSOR];
             for(int i = 0; i < NUM_SENSOR; i++)
               n[i] = Double.valueOf(tokens.nextToken()).doubleValue();
-
           }
 
-          if (attribute.equals("IC"))
-          {
+          if (attribute.equals("IC")){
             IC = new Matrix(4, 1);
             IC.set(0, 0, Double.valueOf(tokens.nextToken()).doubleValue());
             IC.set(1, 0,Double.valueOf(tokens.nextToken()).doubleValue() );
@@ -108,28 +102,23 @@ public class Filter
             IC.set(3, 0, Double.valueOf(tokens.nextToken()).doubleValue());
           }
 
-          if(attribute.equals("SENSORS"))
-          {
-            for(int i = 0; i < NUM_SENSOR; i ++)
-            {
+          if(attribute.equals("SENSORS")){
+            for(int i = 0; i < NUM_SENSOR; i ++){
               nextline = inp.readLine();
               if (nextline == null) continue;
               tokens = new StringTokenizer (nextline);
 
               for(int j = 0; j < 4; j++) {
-
                 sensorInitPos[i][j] =  Double.valueOf(tokens.nextToken()).doubleValue();
                 System.out.println("Value is : " + sensorInitPos[i][j]);
               }
-
             }
-
           }
         }
       }
-
-      catch(IOException e)
-      {  }
+      catch(IOException e){  
+        System.out.println(e)
+      }
     }
     numSample = data.getSize();
     /* for measure performance */
@@ -142,8 +131,6 @@ public class Filter
        0 0 0 1
        0 0 0 0
        0 0 0 0
-
-
 */
     a = new Matrix(4,4); //a ~ A
     a.set(0, 2, 1);
@@ -161,32 +148,25 @@ public class Filter
 
     //set value for A and B
     A = new Matrix(NUM_SENSOR*4, NUM_SENSOR*4); // A ~ AA1
-    for(int i = 0; i< NUM_SENSOR; i++)
-    {
+    for(int i = 0; i< NUM_SENSOR; i++){
       A.setMatrix(i*4 ,(i+1)*4 -1, i*4,  (i+1)*4 -1, a);
     }
 
     B = new Matrix( NUM_SENSOR*4, 2); //B ~ BB1
-    for(int i = 0; i < NUM_SENSOR; i++)
-    {
+    for(int i = 0; i < NUM_SENSOR; i++){
       B.set( (i+1)*4 - 2, 0, 1);
       B.set((i+1)*4 - 1,1, 1);
     }
 
-    B2 = new Matrix(NUM_SENSOR*4, NUM_SENSOR*2);
-    {
-      for(int i = 0; i < NUM_SENSOR; i++)
-      {
+    B2 = new Matrix(NUM_SENSOR*4, NUM_SENSOR*2);{
+      for(int i = 0; i < NUM_SENSOR; i++){
         B2.set(i*4 + 2, i*2, -1);
         B2.set(i*4 + 3, i*2 + 1, -1);
-
       }
     }
-
   }
 
-  public  void initialize()
-  {
+  public  void initialize(){
     //build weighting  matrix
     R = new Matrix(NUM_SENSOR, NUM_SENSOR);
     N = new Matrix(NUM_SENSOR*4, NUM_SENSOR*4);
@@ -284,7 +264,6 @@ public class Filter
     //this function will call other class function to get the real RSSI measurement
     //and convert to a matrix which is y(t)
     //data.getRSSI(n).transpose().print(2, 1);
-
     return data.getRSSI(n);
   }
 
@@ -368,14 +347,11 @@ public class Filter
       // update X
       X.plusEquals(dotX.times(h));
 
-      for(int i = 0; i < NUM_SENSOR; i++)
-      {
+      for(int i = 0; i < NUM_SENSOR; i++){
         sep.setMatrix(i*4 ,(i+1)*4 -1,n+1,  n+1, cap.getMatrix(0, 3,n+1,  n+1));
-
       }
 
       sep.setMatrix(0, NUM_SENSOR*4- 1,n+1,  n+1, (sep.getMatrix(0, NUM_SENSOR*4 -1,n+1,  n+1)).minus(Xh1.getMatrix(0, NUM_SENSOR*4-1,n+1,  n+1)));
-
     }
   }
 
